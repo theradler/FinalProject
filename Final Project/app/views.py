@@ -2,10 +2,13 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
 from datetime import datetime
 from app.moviedbAPIInterface import moviedbAPIInterface
 from django.core import serializers
+from django.contrib.auth import login as auth_login, authenticate, logout
 import json
+from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm
 
 def home(request):
     """Renders the home page."""
@@ -48,6 +51,7 @@ def about(request):
     )
 
 def movieSearchPage(request):
+    assert isinstance(request, HttpRequest)
     return render( 
         request,
         'app/moviesearch.html' )
@@ -62,3 +66,57 @@ def searchRequest(request, search_parameter,search_string):
         result = search.searchByPerson(search_string)
     result = json.dumps(result)
     return HttpResponse(result) 
+
+def login(request):
+    userCreationForm = BootstrapRegistrationForm
+    loginForm = BootstrapAuthenticationForm
+    return render(
+        request,
+        'app/login.html',
+        {
+            'loginForm': loginForm,
+            'regForm': userCreationForm,
+        }
+     )
+
+def register(request):
+    if request.method == 'POST':
+        userCreationForm = BootstrapRegistrationForm(request.POST)
+        if(userCreationForm.is_valid()):
+            userCreationForm.save()
+            username = userCreationForm.cleaned_data.get('username')
+            raw_password = userCreationForm.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            auth_login(request, user)
+            return HttpResponseRedirect('/moviesearch')
+        else:
+            loginForm = BootstrapAuthenticationForm()
+            return render(
+                 request,
+                 'app/login.html',
+                 {
+                 'loginForm': loginForm,
+                 'regForm': userCreationForm,
+                }
+                        )
+      
+
+def userAuth(request):
+    if request.method == 'POST':
+        loginForm = BootstrapAuthenticationForm(data=request.POST)
+        if(loginForm.is_valid()):
+            username = loginForm.cleaned_data.get('username')
+            raw_password = loginForm.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            auth_login(request, user)
+            return HttpResponseRedirect('/moviesearch')
+        else:
+            regForm = BootstrapRegistrationForm()
+            return render(
+                 request,
+                 'app/login.html',
+                 {
+                 'loginForm': loginForm,
+                 'regForm': userCreationForm,
+                }
+                        )

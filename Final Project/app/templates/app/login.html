@@ -1,25 +1,74 @@
-{% extends "app/layout.html" %}
+{% extends "app\base.html" %}
 
 {% block content %}
-
-<h2>{{ title }}</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            <form action="." method="post" class="form-horizontal">
+<div class="container">
+    <div class="row">
+        <div class="col" >
+            <section id="loginForm">
+                {% if loginForm.errors %}
+                     {% for error, field in loginForm.errors.items %}
+                    <div class="alert alert-danger" id="accessErrors">
+                     <strong>{{ field|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            <form action="/userAuth" method="post" class="form-horizontal">
                 {% csrf_token %}
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div class="form-group">
                     <label for="id_username" class="col-md-2 control-label">User name</label>
                     <div class="col-md-10">
-                        {{ form.username }}
+                        {{ loginForm.username }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="id_password" class="col-md-2 control-label">Password</label>
                     <div class="col-md-10">
-                        {{ form.password }}
+                        {{ loginForm.password }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="hidden" name="next" value="/" />
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+                {% if loginForm.errors %}
+                <p class="validation-summary-errors">Please enter a correct user name and password.</p>
+                {% endif %}
+            </form>
+        </section>
+        </div>
+        <div class="col">
+                  <section id="registerForm">
+                         {% if regForm.errors %}
+                     {% for error, field in regForm.errors.items %}
+                    <div class="alert alert-danger" id="accessErrors">
+                     <strong>{{ field|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            <form action="/register" method="post" class="form-horizontal">
+                {% csrf_token %}
+                <h4>Use a local account to log in.</h4>
+                <hr />
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">User name</label>
+                    <div class="col-md-10">
+                        {{ regForm.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Password</label>
+                    <div class="col-md-10">
+                        {{ regForm.password1 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Password</label>
+                    <div class="col-md-10">
+                        {{ regForm.password2 }}
                     </div>
                 </div>
                 <div class="form-group">
@@ -33,9 +82,7 @@
                 {% endif %}
             </form>
         </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm"></section>
+        </div>
     </div>
 </div>
 
@@ -45,6 +92,5 @@
 {% block scripts %}
 
     {% load staticfiles %}
-<script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 
 {% endblock %}
