@@ -1,5 +1,8 @@
 import requests
+import django
 import json
+from django.core import serializers
+from django.utils.safestring import mark_safe
 
 
 class moviedbAPIInterface(object):
@@ -40,13 +43,13 @@ class moviedbAPIInterface(object):
         url='https://api.themoviedb.org/3/movie/' + movieID + '?api_key=' + self.api_key + '&language=' + self.language
         response = requests.get(url)
         response = json.loads(response.text)
-        overview = response['overview']
-        details = {'overview': response['overview'],
-                   'genres': response['genres'],
-                   'release_date': response['release_date'],
-                   'runtime': response['runtime'],
-                   'tagline': response['tagline']
+        details = {"overview": response['overview'].replace('"','\\"').replace('\n','\\n'),
+                   "genres": response['genres'],
+                   "release_date": response['release_date'],
+                   "runtime": response['runtime'],
+                   "tagline": response['tagline']
                    }
+        details = json.dumps(details)
         movieObject = {'details':details,
                        'title': response['title'],
                        'moviedb_id': movieID,
