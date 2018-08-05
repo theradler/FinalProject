@@ -51,3 +51,7 @@ input[type="checkbox"].input-validation-error {
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 }
+#communityBody {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

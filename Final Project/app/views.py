@@ -38,16 +38,14 @@ def contact(request):
             'year':datetime.now().year,
         })
 
-def about(request):
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
+def community(request):
+    users = User.objects.exclude(pk=request.user.id)
+    users = mark_safe(serializers.serialize('json',users))
     return render(request,
-        'app/about.html',
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        })
+                  'app/community.html',
+                  {
+                      'communityUsers': users,
+                  })
 
 @login_required
 def movieSearchPage(request):
@@ -58,7 +56,6 @@ def movieSearchPage(request):
 @login_required
 def searchRequest(request, search_parameter,search_string):
     """On Page Search route"""
-    print("recieved request")
     search = moviedbAPIInterface()
     if search_parameter == 'title':
         result = search.searchByTitle(search_string)
@@ -149,4 +146,16 @@ def myProfile(request):
         'app/userprofile.html',
         {'movieList':movieList, 
          'listOwner': request.user.username
+         })
+
+def otherProfile(request,username):
+    profileOwner = User.objects.get(username=username)
+    listData = UserMovieList.objects.filter(user=profileOwner)
+    movieList  = listData.values_list('movie',flat=True)
+    movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
+    movieList = mark_safe(serializers.serialize('json', movieList))
+    return render(request,
+        'app/userprofile.html',
+        {'movieList':movieList, 
+         'listOwner': username
          })

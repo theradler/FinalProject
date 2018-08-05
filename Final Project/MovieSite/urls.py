@@ -21,9 +21,9 @@ urlpatterns = [
     path('search/<str:search_parameter>/<str:search_string>', app.views.searchRequest, name='searchRequest'),
     path('addMovie/<str:moviedb_id>',app.views.addMovie, name='addMovie'),
     path('removeMovie/<str:movieUnique_id>', app.views.removeMovieFromList, name='removeMovie'),
+    path('profile/<str:username>', app.views.otherProfile, name='otherProfile'),
     url(r'^$', app.views.home, name='home'), 
     url(r'^contact$', app.views.contact, name='contact'),
-    url(r'^about', app.views.about, name='about'),
     url(r'^login/$',app.views.login, name='login'),
     url(r'^logout$',
         django.contrib.auth.views.logout,
@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^register$', app.views.register, name='register'), 
     url(r'^userAuth$', app.views.userAuth, name='userauth'),
     url(r'^profile$', app.views.myProfile, name='myProfile'),
+    url(r'^community$', app.views.community, name='community'),
 
 
      #Uncomment the admin/doc line below to enable admin documentation:

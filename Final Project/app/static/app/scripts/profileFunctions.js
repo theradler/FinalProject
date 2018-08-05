@@ -1,4 +1,4 @@
-function renderList(movieList, ) {
+function renderList(movieList, isUserOwner) {
     var displaySection = document.getElementById('canonList')
     for (var i = 0; i < movieList.length; i++) {
         localMovie = movieList[i].fields
@@ -6,7 +6,7 @@ function renderList(movieList, ) {
         li.className = "media";
         li.id = localMovie.unique_id;
         li.appendChild(returnImageHTML(localMovie.poster_path));
-        li.appendChild(returnContent(localMovie));
+        li.appendChild(returnContent(localMovie, isUserOwner));
         displaySection.appendChild(li);
     }
 }
@@ -25,7 +25,7 @@ function returnImageHTML(posterPath) {
     return img;
 }
 
-function returnContent(movieObject) {
+function returnContent(movieObject, isUserOwner) {
     var details = movieObject.details
    
      
@@ -59,7 +59,9 @@ function returnContent(movieObject) {
     overview.innerHTML = details.overview;
     masterDiv.appendChild(overview);
 
-    masterDiv.appendChild(returnRemoveFromListButton(movieObject.unique_id))
+    if (isUserOwner) {
+        masterDiv.appendChild(returnRemoveFromListButton(movieObject.unique_id))
+    }
     return masterDiv
 }
 

@@ -4,10 +4,18 @@
 <link rel="stylesheet" href="../../static/app/content/site.css" />
 <script type="text/javascript">
     function init() {
-    renderList(movieList);
+    var isUserOwner = true;
+    if(listOwner != currentUser) {
+    isUserOwner = false;
+    renderList(movieList, isUserOwner);
+        }
     }
     var movieList = {{ movieList }}
       var csrfToken = "{{ csrf_token }}";
+        var currentUser = "{{ user.username }}"
+        var listOwner = "{{ listOwner }}"
+    console.log(currentUser); 
+    console.log(listOwner);
     document.addEventListener("DOMContentLoaded", init);
 </script>
 
@@ -18,8 +26,8 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-9">
-            <h1>List Section</h1>
+        <div class="col col-lg-8">
+            <h1>Movies</h1>
             <ul class="list-unstyled" id="canonList">
 
             </ul>

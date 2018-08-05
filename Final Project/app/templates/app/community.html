@@ -1,0 +1,27 @@
+﻿{% extends "app\base.html" %}
+{% block content %}
+<script src="../../static/app/scripts/communityFunctions.js"></script>
+<link rel="stylesheet" href="../../static/app/content/site.css" />
+<script type="text/javascript">
+    function init() {
+    renderUsers(communityUsers);
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+    var communityUsers = {{ communityUsers }}
+
+</script>
+<div class="container" id="communityBody">
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2 style="text-align:center">Check Out the Community</h2>
+            <div class="list-group" id="usersList"></div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
