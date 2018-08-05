@@ -7,6 +7,7 @@
     renderList(movieList);
     }
     var movieList = {{ movieList }}
+      var csrfToken = "{{ csrf_token }}";
     document.addEventListener("DOMContentLoaded", init);
 </script>
 
@@ -17,7 +18,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-auto">
+        <div class="col-9">
             <h1>List Section</h1>
             <ul class="list-unstyled" id="canonList">
 

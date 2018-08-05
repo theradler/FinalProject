@@ -20,6 +20,7 @@ urlpatterns = [
     # Examples:
     path('search/<str:search_parameter>/<str:search_string>', app.views.searchRequest, name='searchRequest'),
     path('addMovie/<str:moviedb_id>',app.views.addMovie, name='addMovie'),
+    path('removeMovie/<str:movieUnique_id>', app.views.removeMovieFromList, name='removeMovie'),
     url(r'^$', app.views.home, name='home'), 
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about', app.views.about, name='about'),

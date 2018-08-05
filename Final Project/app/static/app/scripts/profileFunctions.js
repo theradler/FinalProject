@@ -3,7 +3,8 @@ function renderList(movieList, ) {
     for (var i = 0; i < movieList.length; i++) {
         localMovie = movieList[i].fields
         var li = document.createElement('li');
-        li.className = "media"; 
+        li.className = "media";
+        li.id = localMovie.unique_id;
         li.appendChild(returnImageHTML(localMovie.poster_path));
         li.appendChild(returnContent(localMovie));
         displaySection.appendChild(li);
@@ -25,9 +26,15 @@ function returnImageHTML(posterPath) {
 }
 
 function returnContent(movieObject) {
-    console.log(movieObject)
     var details = movieObject.details
+   
+     
     details = JSON.parse(details);
+    var releaseString = "Released: " + details.release_date;
+    var runtimeString = "Runtime: " + details.runtime + " minutes";
+
+
+
     var masterDiv = document.createElement('div');
     masterDiv.className = "media-body";
 
@@ -36,13 +43,50 @@ function returnContent(movieObject) {
     title.innerHTML = movieObject.title;
     masterDiv.appendChild(title); 
 
-    var subtitle = document.createElement('blockquote');
-    subtitle.innerHTML = movieObject.details.tagline;
+    var subtitle = document.createElement('p');
+    subtitle.innerHTML = "<strong><i>" + details.tagline + "</i></strong>";
     masterDiv.appendChild(subtitle);
 
+    var releaseDate = document.createElement('p');
+    releaseDate.innerHTML = releaseString
+    masterDiv.appendChild(releaseDate);
 
+    var runtime = document.createElement('p');
+    runtime.innerHTML = runtimeString;
+    masterDiv.appendChild(runtime);
 
+    var overview = document.createElement('p');
+    overview.innerHTML = details.overview;
+    masterDiv.appendChild(overview);
 
+    masterDiv.appendChild(returnRemoveFromListButton(movieObject.unique_id))
     return masterDiv
 }
+
+function returnRemoveFromListButton(movieId) {
+    var button = document.createElement('button')
+    button.className = "btn btn-primary btn-sm"
+    button.type = "button"
+    button.innerHTML = "Remove from your Personal Canon"
+    button.style.paddingTop = '10';
+    button.style.paddingBottom = '10';
+    button.style.margin = '10';
+    button.value = movieId;
+    button.setAttribute('onclick', 'onRemoveButtonClick(this.value)');
+    return button
+}
+
+
+function onRemoveButtonClick(movieId) {
+    console.log(movieId);
+    var url = 'removeMovie/' + movieId;
+    var ajax = new XMLHttpRequest();
+    ajax.open("POST", url, true)
+    ajax.setRequestHeader('X-CSRFToken', csrfToken);
+    ajax.send(); 
+
+    var removedItem = document.getElementById(movieId);
+    removedItem.innerHTML = '';
+}
+
 

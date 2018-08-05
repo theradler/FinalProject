@@ -130,6 +130,15 @@ def addMovie(request, moviedb_id):
         newMovieListItem.save()
         return HttpResponse('Hello') 
 
+def removeMovieFromList(request, movieUnique_id):
+    if request.method == 'POST':
+        currentUserID = request.user.id; 
+        movieToRemove = Movies.objects.get(unique_id=movieUnique_id)
+        currentUser = User.objects.get(pk=currentUserID)
+        UserMovieList.objects.filter(movie=movieToRemove).filter(user=currentUser).delete()
+        return HttpResponse('200')
+
+
 def myProfile(request):
     currentUserID = request.user.id
     listData = UserMovieList.objects.filter(user_id=currentUserID)

@@ -123,8 +123,6 @@ function returnAddToListButton(result) {
 }
 
 function onAddButtonClick(movieID) {
-    console.log(movieID);
-    console.log(csrfToken);
     var url = '/addMovie/' + movieID; 
     var ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function () {
