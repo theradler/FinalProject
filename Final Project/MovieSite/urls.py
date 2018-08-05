@@ -19,6 +19,7 @@ import app.views
 urlpatterns = [
     # Examples:
     path('search/<str:search_parameter>/<str:search_string>', app.views.searchRequest, name='searchRequest'),
+    path('addMovie/<str:moviedb_id>',app.views.addMovie, name='addMovie'),
     url(r'^$', app.views.home, name='home'), 
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about', app.views.about, name='about'),
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^moviesearch$',app.views.movieSearchPage, name='movieserchpage'),
     url(r'^register$', app.views.register, name='register'), 
     url(r'^userAuth$', app.views.userAuth, name='userauth'),
+    url(r'^profile$', app.views.myProfile, name='myProfile'),
 
 
      #Uncomment the admin/doc line below to enable admin documentation:

@@ -1,0 +1,27 @@
+﻿{% extends "app\base.html" %}
+{% block content %}
+<script src="../../static/app/scripts/profileFunctions.js"></script>
+<script type="text/javascript">
+    var listData = {{ userList }}
+    var movieList = {{ movieList }}
+    console.log(movieList);
+    console.log(listData);
+</script>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+    <h1>Welcome to {{ listOwner }}'s Personal Canon</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>List Section</h1>
+        </div>
+        <div class="col">
+            <h1>Commments Section</h1>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

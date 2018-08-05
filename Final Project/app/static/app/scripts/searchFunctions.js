@@ -16,7 +16,6 @@ function submitMovieSearch() {
 
 function renderSearchResults(searchResults) {
     results = searchResults;
-    console.log(results);
     resultDisplayList = document.getElementById('resultsList');
     resultDisplayList.innerHTML = ''; 
     for (var i = 0; i < results.length; i++) {
@@ -43,7 +42,9 @@ function returnResultContentDiv(result) {
     contentDiv.appendChild(returnTitleHTML(result.original_title));
     contentDiv.appendChild(document.createTextNode(releaseDate));
     contentDiv.appendChild(returnLineBreak());
-    contentDiv.appendChild(document.createTextNode(overview)); 
+    contentDiv.appendChild(document.createTextNode(overview));
+    contentDiv.appendChild(returnLineBreak());
+    contentDiv.appendChild(returnAddToListButton(result));
     return contentDiv
 
 }
@@ -106,4 +107,32 @@ function returnSearchBy(parameter) {
             parameter = 'title'
     }
     return parameter;
+}
+
+function returnAddToListButton(result) {
+    var button = document.createElement('button')
+    button.className = "btn btn-primary btn-sm"
+    button.type = "button"
+    button.innerHTML = "Add to your Personal Canon"
+    button.style.paddingTop = '10';
+    button.style.paddingBottom = '10';
+    button.style.margin = '10';
+    button.value = result.id;
+    button.setAttribute('onclick', 'onAddButtonClick(this.value)');
+    return button
+}
+
+function onAddButtonClick(movieID) {
+    console.log(movieID);
+    console.log(csrfToken);
+    var url = '/addMovie/' + movieID; 
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+        if (ajax.readyState == ajax.DONE && ajax.status == 200) {
+            //do something once server side processing has been completed
+        }
+    };
+    ajax.open("POST", url, true);
+    ajax.setRequestHeader('X-CSRFToken', csrfToken);
+    ajax.send();
 }

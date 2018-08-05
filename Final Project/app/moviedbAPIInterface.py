@@ -35,5 +35,23 @@ class moviedbAPIInterface(object):
             i += 1
         response =  movieList
         return response
+
+    def getMovieById(self, movieID):
+        url='https://api.themoviedb.org/3/movie/' + movieID + '?api_key=' + self.api_key + '&language=' + self.language
+        response = requests.get(url)
+        response = json.loads(response.text)
+        overview = response['overview']
+        details = {'overview': response['overview'],
+                   'genres': response['genres'],
+                   'release_date': response['release_date'],
+                   'runtime': response['runtime'],
+                   'tagline': response['tagline']
+                   }
+        movieObject = {'details':details,
+                       'title': response['title'],
+                       'moviedb_id': movieID,
+                       'poster_path': response['poster_path']
+                       }
+        return movieObject
     
 
