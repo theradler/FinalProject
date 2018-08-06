@@ -20,3 +20,8 @@ class UserMovieList(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey('Movies', on_delete=models.SET_NULL, null=True)
     list_position = models.IntegerField()
+
+class Comments(models.Model):
+    userList = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    commentOwner = models.CharField(max_length=120,null=True)
+    comments = models.CharField(max_length=120)

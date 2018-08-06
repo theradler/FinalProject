@@ -31,3 +31,12 @@ class BootstrapRegistrationForm(UserCreationForm):
                                 widget=forms.PasswordInput({
                                     'class':'form-control',
                                     'placeholder':'Password'}))
+
+class BoostrapCommentForm(forms.Form):
+    comment = forms.CharField(label=("Comment"),
+                              widget=forms.TextInput({
+                                  'class':'pb-cmnt-textarea',
+                                  'placeholder': 'Leave a Comment'
+                                  }))
+    listOwnerId = forms.IntegerField(widget=forms.HiddenInput())
+

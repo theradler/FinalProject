@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^userAuth$', app.views.userAuth, name='userauth'),
     url(r'^profile$', app.views.myProfile, name='myProfile'),
     url(r'^community$', app.views.community, name='community'),
+    url(r'^submitComment',app.views.submitComment, name='submitComment'),
 
 
      #Uncomment the admin/doc line below to enable admin documentation:

@@ -9,9 +9,9 @@ from django.core import serializers
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.contrib.auth.models import User
 import json
-from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm
+from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm, BoostrapCommentForm
 from django.contrib.auth.decorators import login_required
-from app.models import Movies, UserMovieList
+from app.models import Movies, UserMovieList, Comments
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
@@ -112,6 +112,7 @@ def userAuth(request):
                  'regForm': userCreationForm,
                 })
 
+@login_required
 def addMovie(request, moviedb_id):
     if request.method == 'POST':
         current_user = request.user
@@ -127,6 +128,7 @@ def addMovie(request, moviedb_id):
         newMovieListItem.save()
         return HttpResponse('Hello') 
 
+@login_required
 def removeMovieFromList(request, movieUnique_id):
     if request.method == 'POST':
         currentUserID = request.user.id; 
@@ -135,7 +137,7 @@ def removeMovieFromList(request, movieUnique_id):
         UserMovieList.objects.filter(movie=movieToRemove).filter(user=currentUser).delete()
         return HttpResponse('200')
 
-
+@login_required
 def myProfile(request):
     currentUserID = request.user.id
     listData = UserMovieList.objects.filter(user_id=currentUserID)
@@ -148,8 +150,10 @@ def myProfile(request):
          'listOwner': request.user.username
          })
 
+@login_required
 def otherProfile(request,username):
     profileOwner = User.objects.get(username=username)
+    commentForm = BoostrapCommentForm()
     listData = UserMovieList.objects.filter(user=profileOwner)
     movieList  = listData.values_list('movie',flat=True)
     movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
@@ -157,5 +161,20 @@ def otherProfile(request,username):
     return render(request,
         'app/userprofile.html',
         {'movieList':movieList, 
-         'listOwner': username
+         'listOwner': username,
+         'commentForm':commentForm,
+         'ownerID': profileOwner.pk
          })
+@login_required
+def submitComment(request):
+    if request.method == 'POST':
+        commentForm = BoostrapCommentForm(request.POST)
+        if commentForm.is_valid():
+            comment = commentForm.cleaned_data.get('comment')
+            listOwnerId = commentForm.cleaned_data.get('listOwnerId')
+            userList = User.objects.get(pk=listOwnerId)
+            commentOwner = User.objects.get(pk=request.user.id).username
+            newComment = Comments(userList=userList,commentOwner=commentOwner,comments=comment)
+            newComment.save() 
+            print('commentReceived')
+    return HttpResponse('shit worked')

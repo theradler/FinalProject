@@ -91,4 +91,7 @@ function onRemoveButtonClick(movieId) {
     removedItem.innerHTML = '';
 }
 
-
+function setListOwnerIdOnCommentForm(listOwnerID) {
+    var hiddenField = document.getElementById('id_listOwnerId');
+    hiddenField.value = listOwnerID
+}
