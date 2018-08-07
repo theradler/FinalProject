@@ -7,6 +7,7 @@ from datetime import datetime
 from app.moviedbAPIInterface import moviedbAPIInterface
 from django.core import serializers
 from django.contrib.auth import login as auth_login, authenticate, logout
+from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 import json
 from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm, BoostrapCommentForm
@@ -161,12 +162,14 @@ def otherProfile(request,username):
     movieList  = listData.values_list('movie',flat=True)
     movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
     movieList = mark_safe(serializers.serialize('json', movieList))
+    comments = Comments.objects.filter(userList=profileOwner).order_by('pk')
     return render(request,
         'app/userprofile.html',
         {'movieList':movieList, 
          'listOwner': username,
          'commentForm':commentForm,
-         'ownerID': profileOwner.pk
+         'ownerID': profileOwner.pk,
+         'comments':comments
          })
 @login_required
 def submitComment(request):
@@ -179,5 +182,12 @@ def submitComment(request):
             commentOwner = User.objects.get(pk=request.user.id).username
             newComment = Comments(userList=userList,commentOwner=commentOwner,comments=comment)
             newComment.save() 
-            print('commentReceived')
-    return HttpResponse('shit worked')
+             #Generate otherProfileView and return update page 
+            commentForm = BoostrapCommentForm()
+            comments = Comments.objects.filter(userList=userList).order_by('pk')
+            listData = UserMovieList.objects.filter(user=userList)
+            movieList  = listData.values_list('movie',flat=True)
+            movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
+            movieList = mark_safe(serializers.serialize('json', movieList))
+            return HttpResponseRedirect('/profile/' + userList.username)
+ 

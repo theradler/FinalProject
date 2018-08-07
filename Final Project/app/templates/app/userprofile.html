@@ -34,14 +34,15 @@
         </div>
         <div class="col">
             
-            <h1>Comment Form</h1>
+            <h1>Reviews Form</h1>
             <div id="userComments">
-                {{ comments }}
                 <table class="table">
                     <tr>
                      {% for record in comments %}
-                        <h1> hello</h1>
-                        {{ record.comments }}
+                        <blockquote class="blockquote">
+                        <p class="mb-0">{{ record.comments }}</p>
+                        <footer class="blockquote-footer"><cite>{{ record.commentOwner }}</cite></footer>
+                        </blockquote>
                         {% endfor %}
                     </tr>
                 </table>
