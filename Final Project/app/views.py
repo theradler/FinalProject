@@ -145,7 +145,7 @@ def myProfile(request):
     movieList = listData.values_list('movie', flat=True) 
     movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
     movieList = mark_safe(serializers.serialize('json', movieList))
-    comments = Comments.objects.filter(userList=user).all()
+    comments = Comments.objects.filter(userList=user).order_by('pk')
     return render(request,
         'app/userprofile.html',
         {'movieList':movieList, 
