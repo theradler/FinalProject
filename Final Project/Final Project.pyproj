@@ -70,6 +70,7 @@
   <ItemGroup>
     <Content Include="app\static\app\content\scrolling-nav.css" />
     <Content Include="app\static\app\scripts\communityFunctions.js" />
+    <Content Include="app\static\app\scripts\movieFunctions.js" />
     <Content Include="app\static\app\scripts\profileFunctions.js" />
     <Content Include="app\static\app\scripts\scrolling-nav.js" />
     <Content Include="app\static\app\scripts\searchFunctions.js" />
@@ -100,6 +101,7 @@
     <Content Include="app\static\app\vendor\jquery\jquery.slim.min.map" />
     <Content Include="app\templates\app\base.html" />
     <Content Include="app\templates\app\community.html" />
+    <Content Include="app\templates\app\movieProfile.html" />
     <Content Include="app\templates\app\moviesearch.html" />
     <Content Include="app\templates\app\userprofile.html" />
     <Content Include="requirements.txt" />

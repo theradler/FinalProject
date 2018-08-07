@@ -40,3 +40,13 @@ class BoostrapCommentForm(forms.Form):
                                   }))
     listOwnerId = forms.IntegerField(widget=forms.HiddenInput())
 
+
+
+class BoostrapMovieReview(forms.Form):
+    reviewScore = forms.IntegerField(widget=forms.HiddenInput())
+
+    reviewText = forms.CharField(label=("Leave a Review"),
+                              widget=forms.TextInput({
+                                  'class':'pb-cmnt-textarea',
+                                  'placeholder': 'Enter Your Review'
+                                  }))

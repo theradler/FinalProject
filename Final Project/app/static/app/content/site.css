@@ -70,3 +70,10 @@ input[type="checkbox"].input-validation-error {
 #commentSubmitButton {
     margin-top: 5px;
 }
+#movieProfileTitle {
+    color: darkslategrey;
+    font-size: 35px;
+}
+.checked {
+    color: orange;
+}

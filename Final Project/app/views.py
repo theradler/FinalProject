@@ -10,7 +10,7 @@ from django.contrib.auth import login as auth_login, authenticate, logout
 from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 import json
-from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm, BoostrapCommentForm
+from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm, BoostrapCommentForm, BoostrapMovieReview
 from django.contrib.auth.decorators import login_required
 from app.models import Movies, UserMovieList, Comments
 from django.conf import settings
@@ -161,6 +161,7 @@ def otherProfile(request,username):
          'ownerID': profileOwner.pk,
          'comments':comments
          })
+
 @login_required
 def submitComment(request):
     if request.method == 'POST':
@@ -181,3 +182,15 @@ def submitComment(request):
             movieList = mark_safe(serializers.serialize('json', movieList))
             return HttpResponseRedirect('/profile/' + userList.username)
  
+@login_required
+def movieProfile(request, movieUniqueId):
+    reviewForm = BoostrapMovieReview()
+    movie = Movies.objects.get(unique_id=movieUniqueId)
+    details = json.loads(movie.details)
+    return render(request,'app/movieProfile.html',
+                  {'movie': movie,
+                   'overview':details['overview'],
+                   'tagline': details['tagline'],
+                   'runtime': details['runtime'],
+                   'releaseDate': details['release_date'],
+                   'reviewForm': reviewForm,})

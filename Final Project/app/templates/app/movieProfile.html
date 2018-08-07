@@ -1,0 +1,43 @@
+﻿{% extends "app\base.html" %}
+{% block content %}
+<script src="../../static/app/scripts/movieFunctions.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../static/app/content/site.css" />
+<div class="container">
+    <div class="row">
+        <div class="col">
+               <img width="300" alt="No Post Available" src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" />
+        </div>
+        <div class="col">
+                <h1>{{ movie.title }}</h1>
+                <strong>{{ tagline }}</strong>
+            <br />
+                <p>{{ overview }}</p>
+                <p><strong>Release Date: </strong>{{ releaseDate }}</p>
+                <p><strong>Runtime: </strong>{{ runtime }} minutes</p>
+       
+
+        </div>
+
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+        <h1>Reviews</h1>
+            <div id="starRating">
+                <span class="fa fa-star checked" id="star1" data="1" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star checked" id="star2" data="2" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star checked" id="star3" value="3" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star" id="star4" value="4" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star" id="star5" value="5"onclick="setStarRanking(this)"></span>
+            </div>
+            <form>
+             {{ reviewForm.reviewScore }}
+             {{ reviewForm.reviewText }}
+             </form>
+            </div>
+    </div>
+
+
+</div>
+{% endblock %}

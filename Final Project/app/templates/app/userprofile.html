@@ -36,6 +36,7 @@
             
             <h1>Reviews Form</h1>
             <div id="userComments">
+                {% if comments %}
                 <table class="table">
                     <tr>
                      {% for record in comments %}
@@ -46,6 +47,9 @@
                         {% endfor %}
                     </tr>
                 </table>
+                {% else %}
+                <h3>No one has left a review</h3>
+                {% endif %}
             </div>
             {% if commentForm %}
             <form action="/submitComment" method="post">

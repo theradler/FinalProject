@@ -19,11 +19,11 @@ import app.views
 urlpatterns = [
     # Examples:
     path('search/<str:search_parameter>/<str:search_string>', app.views.searchRequest, name='searchRequest'),
+    path('movie/<str:movieUniqueId>',app.views.movieProfile, name='movieProfile' ),
     path('addMovie/<str:moviedb_id>',app.views.addMovie, name='addMovie'),
     path('removeMovie/<str:movieUnique_id>', app.views.removeMovieFromList, name='removeMovie'),
     path('profile/<str:username>', app.views.otherProfile, name='otherProfile'),
     url(r'^$', app.views.home, name='home'), 
-    url(r'^contact$', app.views.contact, name='contact'),
     url(r'^login/$',app.views.login, name='login'),
     url(r'^logout$',
         django.contrib.auth.views.logout,

@@ -32,14 +32,15 @@ function returnContent(movieObject, isUserOwner) {
     details = JSON.parse(details);
     var releaseString = "Released: " + details.release_date;
     var runtimeString = "Runtime: " + details.runtime + " minutes";
-
-
+    
 
     var masterDiv = document.createElement('div');
     masterDiv.className = "media-body";
 
-    var title = document.createElement('h5');
+    var title = document.createElement('a');
+    title.id='movieProfileTitle'
     title.setAttribute('class', "mt-0 mb-1");
+    title.href = 'movie/' + movieObject.unique_id
     title.innerHTML = movieObject.title;
     masterDiv.appendChild(title); 
 

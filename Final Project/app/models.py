@@ -25,3 +25,9 @@ class Comments(models.Model):
     userList = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     commentOwner = models.CharField(max_length=120,null=True)
     comments = models.CharField(max_length=120)
+
+class MovieReviews(models.Model):
+    movie = models.ForeignKey('Movies', on_delete=models.CASCADE, null=True)
+    user =  models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,null=True)
+    movie_rating = models.IntegerField()
+    movie_review_text = models.CharField(max_length=1000)
