@@ -28,17 +28,7 @@ def home(request):
             'year':datetime.now().year,
         })
 
-def contact(request):
-    """Renders the contact page."""
-    assert isinstance(request, HttpRequest)
-    return render(request,
-        'app/contact.html',
-        {
-            'title':'Contact',
-            'message':'Your contact page.',
-            'year':datetime.now().year,
-        })
-
+@login_required
 def community(request):
     users = User.objects.exclude(pk=request.user.id)
     users = mark_safe(serializers.serialize('json',users))
