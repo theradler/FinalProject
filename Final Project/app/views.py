@@ -140,14 +140,17 @@ def removeMovieFromList(request, movieUnique_id):
 @login_required
 def myProfile(request):
     currentUserID = request.user.id
+    user = User.objects.get(pk=currentUserID)
     listData = UserMovieList.objects.filter(user_id=currentUserID)
     movieList = listData.values_list('movie', flat=True) 
     movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
     movieList = mark_safe(serializers.serialize('json', movieList))
+    comments = Comments.objects.filter(userList=user).all()
     return render(request,
         'app/userprofile.html',
         {'movieList':movieList, 
-         'listOwner': request.user.username
+         'listOwner': request.user.username,
+         'comments': comments,
          })
 
 @login_required

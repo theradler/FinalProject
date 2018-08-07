@@ -7,15 +7,15 @@
     var isUserOwner = true;
     if(listOwner != currentUser) {
     isUserOwner = false;
+    }
     renderList(movieList, isUserOwner);
-        }
     setListOwnerIdOnCommentForm(listOwnerId);
     }
-    var movieList = {{ movieList }}
-      var csrfToken = "{{ csrf_token }}";
-        var currentUser = "{{ user.username }}"
-        var listOwner = "{{ listOwner }}"
-    var listOwnerId = "{{ ownerID }}"
+    var movieList = {{ movieList }};
+      var csrfToken = "{{ csrf_token }}";;
+        var currentUser = "{{ user.username }}";
+        var listOwner = "{{ listOwner }}";
+    var listOwnerId = "{{ ownerID }}";
     document.addEventListener("DOMContentLoaded", init);
 </script>
 
@@ -36,7 +36,15 @@
             
             <h1>Comment Form</h1>
             <div id="userComments">
-
+                {{ comments }}
+                <table class="table">
+                    <tr>
+                     {% for record in comments %}
+                        <h1> hello</h1>
+                        {{ record}}
+                        {% endfor %}
+                    </tr>
+                </table>
             </div>
             {% if commentForm %}
             <form action="/submitComment" method="post">

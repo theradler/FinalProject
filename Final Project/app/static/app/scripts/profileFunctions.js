@@ -93,5 +93,7 @@ function onRemoveButtonClick(movieId) {
 
 function setListOwnerIdOnCommentForm(listOwnerID) {
     var hiddenField = document.getElementById('id_listOwnerId');
-    hiddenField.value = listOwnerID
+    if (hiddenField) {
+        hiddenField.value = listOwnerID
+    }
 }
