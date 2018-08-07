@@ -12,9 +12,10 @@ from django.contrib.auth.models import User
 import json
 from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm, BoostrapCommentForm, BoostrapMovieReview
 from django.contrib.auth.decorators import login_required
-from app.models import Movies, UserMovieList, Comments
+from app.models import Movies, UserMovieList, Comments, MovieReviews
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.db.models import Avg
 
 def home(request):
     """Renders the home page."""
@@ -174,12 +175,6 @@ def submitComment(request):
             newComment = Comments(userList=userList,commentOwner=commentOwner,comments=comment)
             newComment.save() 
              #Generate otherProfileView and return update page 
-            commentForm = BoostrapCommentForm()
-            comments = Comments.objects.filter(userList=userList).order_by('pk')
-            listData = UserMovieList.objects.filter(user=userList)
-            movieList  = listData.values_list('movie',flat=True)
-            movieList = Movies.objects.filter(pk__in=movieList).order_by('usermovielist__list_position')
-            movieList = mark_safe(serializers.serialize('json', movieList))
             return HttpResponseRedirect('/profile/' + userList.username)
  
 @login_required
@@ -187,10 +182,34 @@ def movieProfile(request, movieUniqueId):
     reviewForm = BoostrapMovieReview()
     movie = Movies.objects.get(unique_id=movieUniqueId)
     details = json.loads(movie.details)
+    reviews = MovieReviews.objects.filter(movie=movie).order_by('pk')
+    averageReview  = MovieReviews.objects.filter(movie=movie).all().aggregate(Avg('movie_rating'))
+    averageReview = int(round(averageReview['movie_rating__avg']))
     return render(request,'app/movieProfile.html',
                   {'movie': movie,
                    'overview':details['overview'],
                    'tagline': details['tagline'],
                    'runtime': details['runtime'],
                    'releaseDate': details['release_date'],
-                   'reviewForm': reviewForm,})
+                   'reviewForm': reviewForm,
+                   'movieUniqueId':movieUniqueId,
+                   'reviews':reviews,
+                   'averageReview':averageReview,
+                   })
+
+@login_required
+def submitReview(request,movieUniqueId):
+    if request.method == 'POST':
+        reviewForm = BoostrapMovieReview(data=request.POST)
+        if  reviewForm.is_valid():
+            reviewScore = reviewForm.cleaned_data.get('reviewScore')
+            reviewText = reviewForm.cleaned_data.get('reviewText')
+            movie = Movies.objects.get(unique_id=movieUniqueId)
+            user = User.objects.get(pk=request.user.id)
+            commentOwner = User.objects.get(pk=request.user.id).username
+            newReview= MovieReviews(movie=movie,user=user,movie_rating=reviewScore,movie_review_text=reviewText)
+            newReview.save() 
+        userReview = MovieReviews()
+
+    return HttpResponseRedirect(('/movie/' + movieUniqueId))
+    

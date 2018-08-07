@@ -15,6 +15,7 @@
                 <p>{{ overview }}</p>
                 <p><strong>Release Date: </strong>{{ releaseDate }}</p>
                 <p><strong>Runtime: </strong>{{ runtime }} minutes</p>
+                <p><strong>Average User Review: </strong>{{ averageReview }}<span class="fa fa-star checked"</span></p>
        
 
         </div>
@@ -22,18 +23,29 @@
     </div>
     <hr />
     <div class="row">
+        <div class="col">        
+            <h1>Reviews</h1>
+            {% for review in reviews %}
+            <blockquote class="blockquote">
+            <p class="mb-0">{{ review.movie_review_text }}</p>
+            <p>{{ review.movie_rating }} <span class="fa fa-star checked"</span></p>
+            <footer class="blockquote-footer"><cite>{{ review.user }}</cite></footer>
+            </blockquote>
+            {% endfor %}
+        </div>
         <div class="col">
-        <h1>Reviews</h1>
             <div id="starRating">
-                <span class="fa fa-star checked" id="star1" data="1" onclick="setStarRanking(this)"></span>
-                <span class="fa fa-star checked" id="star2" data="2" onclick="setStarRanking(this)"></span>
-                <span class="fa fa-star checked" id="star3" value="3" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star" id="star1" data="1" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star" id="star2" data="2" onclick="setStarRanking(this)"></span>
+                <span class="fa fa-star" id="star3" value="3" onclick="setStarRanking(this)"></span>
                 <span class="fa fa-star" id="star4" value="4" onclick="setStarRanking(this)"></span>
                 <span class="fa fa-star" id="star5" value="5"onclick="setStarRanking(this)"></span>
             </div>
-            <form>
+            <form action="/submitReview/{{ movieUniqueId }}" method="post" id="movieReviewForm">
+             {% csrf_token %}
              {{ reviewForm.reviewScore }}
              {{ reviewForm.reviewText }}
+             <button class="btn btn-primary pull-right" id="commentSubmitButton" type="submit" title="You must choose rating before submitting review" disabled>Submit Review</button>
              </form>
             </div>
     </div>

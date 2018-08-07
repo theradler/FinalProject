@@ -23,6 +23,7 @@ urlpatterns = [
     path('addMovie/<str:moviedb_id>',app.views.addMovie, name='addMovie'),
     path('removeMovie/<str:movieUnique_id>', app.views.removeMovieFromList, name='removeMovie'),
     path('profile/<str:username>', app.views.otherProfile, name='otherProfile'),
+    path('submitReview/<str:movieUniqueId>', app.views.submitReview, name='submitReview'),
     url(r'^$', app.views.home, name='home'), 
     url(r'^login/$',app.views.login, name='login'),
     url(r'^logout$',

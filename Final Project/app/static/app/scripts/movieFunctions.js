@@ -9,6 +9,11 @@ function setStarRanking(starValue) {
         var star = document.getElementById(('star' + i));
         star.setAttribute("class", "fa fa-star checked")
     }
-    console.log(starPostion); 
+
+    var formField = document.getElementById('id_reviewScore')
+    formField.value = starPostion
+    var submitButton = document.getElementById('commentSubmitButton')
+    submitButton.disabled = false;
+    submitButton.title = "";
 
 }

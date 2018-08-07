@@ -40,7 +40,7 @@ function returnContent(movieObject, isUserOwner) {
     var title = document.createElement('a');
     title.id='movieProfileTitle'
     title.setAttribute('class', "mt-0 mb-1");
-    title.href = 'movie/' + movieObject.unique_id
+    title.href = '/movie/' + movieObject.unique_id
     title.innerHTML = movieObject.title;
     masterDiv.appendChild(title); 
 
