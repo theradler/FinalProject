@@ -9,7 +9,7 @@ from django.contrib import admin
 import django.contrib.auth.views
 import app.forms
 import app.views
-from django.contrib.auth.views import logout
+
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
 # from django.contrib import admin
@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^$', app.views.home, name='home'), 
     url(r'^login/$',app.views.login, name='login'),
     url(r'^logout$',
-        logout,
+        django.contrib.auth.views.auth_logout,
         {
             'next_page': '/',
         },
