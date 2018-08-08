@@ -1,3 +1,4 @@
+//Sends movie search to server 
 function submitMovieSearch() {
     var searchParameters = getSearchParameters();
     var searchType = returnSearchBy(searchParameters.parameter);
@@ -13,7 +14,7 @@ function submitMovieSearch() {
     ajax.send();
 }
 
-
+//renders results of the search on page 
 function renderSearchResults(searchResults) {
     results = searchResults;
     resultDisplayList = document.getElementById('resultsList');
@@ -28,7 +29,7 @@ function renderSearchResults(searchResults) {
     }
 
 }
-
+//generates result content 
 function returnResultContentDiv(result) {
     var releaseDate = "Release Date: " + result.release_date;
     var overview;
@@ -48,14 +49,14 @@ function returnResultContentDiv(result) {
     return contentDiv
 
 }
-
+//renders title element 
 function returnTitleHTML(titleText) {
     var title = document.createElement('h5');
     title.setAttribute('class', 'mt-0 mb-1');
     title.innerHTML = titleText;
     return title; 
 }
-
+//renders poster element 
 function returnImageHTML(posterPath) {
     var img = document.createElement("img");
     img.className = "mr-3";
@@ -70,18 +71,18 @@ function returnImageHTML(posterPath) {
     img.class = "poster "
     return img; 
 }
-
+//returns a line break 
 function returnLineBreak() {
     var br = document.createElement('br');
     return br
 }
-
+//returns a horizontal rule
 function returnHorizontalRule() {
     var hr = document.createElement('span');
     hr.className = "border-top my-3"
     return hr 
 }
-
+//gets the type of search 
 function getSearchParameters() {
     var searchForm = document.getElementById('searchForm');
     var returnObject = {
@@ -90,7 +91,7 @@ function getSearchParameters() {
     }
     return returnObject
 }
-
+//utility for santizing search selection 
 function returnSearchBy(parameter) {
     parameter = parameter.toLowerCase();
     switch (parameter) {
@@ -100,15 +101,12 @@ function returnSearchBy(parameter) {
         case 'person':
             parameter = 'person';
             break;
-        case 'keyword':
-            parameter = 'keyword';
-            break;
         default:
             parameter = 'title'
     }
     return parameter;
 }
-
+//creates add to list button 
 function returnAddToListButton(result) {
     var button = document.createElement('button')
     button.className = "btn btn-primary btn-sm"
@@ -121,7 +119,7 @@ function returnAddToListButton(result) {
     button.setAttribute('onclick', 'onAddButtonClick(this.value)');
     return button
 }
-
+//function that send add movie collection request to server 
 function onAddButtonClick(movieID) {
     var url = '/addMovie/' + movieID; 
     var ajax = new XMLHttpRequest();

@@ -32,6 +32,7 @@ def home(request):
 
 @login_required
 def community(request):
+    """Renders the Community Page"""
     users = User.objects.exclude(pk=request.user.id)
     users = mark_safe(serializers.serialize('json',users))
     randMovie = Movies.objects.all().order_by('?')[:1]
@@ -48,6 +49,7 @@ def community(request):
 
 @login_required
 def movieSearchPage(request):
+    """Renders the Movie Search Page"""
     assert isinstance(request, HttpRequest)
     return render(request,
         'app/moviesearch.html')
@@ -64,6 +66,7 @@ def searchRequest(request, search_parameter,search_string):
     return HttpResponse(result) 
 
 def login(request):
+    """loads login page"""
     userCreationForm = BootstrapRegistrationForm
     loginForm = BootstrapAuthenticationForm
     return render(request,
@@ -74,6 +77,7 @@ def login(request):
         })
 
 def register(request):
+    """User Registration Call"""
     if request.method == 'POST':
         userCreationForm = BootstrapRegistrationForm(request.POST)
         if(userCreationForm.is_valid()):
@@ -94,6 +98,7 @@ def register(request):
       
 
 def userAuth(request):
+    """User Auth"""
     if request.method == 'POST':
         loginForm = BootstrapAuthenticationForm(data=request.POST)
         if(loginForm.is_valid()):
@@ -113,6 +118,7 @@ def userAuth(request):
 
 @login_required
 def addMovie(request, moviedb_id):
+    """responds to ajax route to add movie to collection"""
     if request.method == 'POST':
         current_user = request.user
         search = moviedbAPIInterface()
@@ -133,6 +139,7 @@ def addMovie(request, moviedb_id):
 
 @login_required
 def removeMovieFromList(request, movieUnique_id):
+    """responds to ajax to remove movie from list"""
     if request.method == 'POST':
         currentUserID = request.user.id; 
         movieToRemove = Movies.objects.get(unique_id=movieUnique_id)
@@ -142,6 +149,7 @@ def removeMovieFromList(request, movieUnique_id):
 
 @login_required
 def myProfile(request):
+    """Loads user page"""
     currentUserID = request.user.id
     user = User.objects.get(pk=currentUserID)
     listData = UserMovieList.objects.filter(user_id=currentUserID)
@@ -158,6 +166,7 @@ def myProfile(request):
 
 @login_required
 def otherProfile(request,username):
+    """Loads user profile page from context of other user viewing it"""
     profileOwner = User.objects.get(username=username)
     commentForm = BoostrapCommentForm()
     listData = UserMovieList.objects.filter(user=profileOwner)
@@ -176,6 +185,7 @@ def otherProfile(request,username):
 
 @login_required
 def submitComment(request):
+    """Allows user to review/commment on user list"""
     if request.method == 'POST':
         commentForm = BoostrapCommentForm(request.POST)
         if commentForm.is_valid():
@@ -190,6 +200,7 @@ def submitComment(request):
  
 @login_required
 def movieProfile(request, movieUniqueId):
+    """loads movie specific page"""
     reviewForm = BoostrapMovieReview()
     movie = Movies.objects.get(unique_id=movieUniqueId)
     details = json.loads(movie.details)
@@ -214,6 +225,7 @@ def movieProfile(request, movieUniqueId):
 
 @login_required
 def submitReview(request,movieUniqueId):
+    """allows user to submite user review"""
     if request.method == 'POST':
         reviewForm = BoostrapMovieReview(data=request.POST)
         if  reviewForm.is_valid():

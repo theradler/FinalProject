@@ -1,3 +1,4 @@
+//renders movies in user canon list 
 function renderList(movieList, isUserOwner) {
     var displaySection = document.getElementById('canonList')
     for (var i = 0; i < movieList.length; i++) {
@@ -10,7 +11,7 @@ function renderList(movieList, isUserOwner) {
         displaySection.appendChild(li);
     }
 }
-
+//returns post image 
 function returnImageHTML(posterPath) {
     var img = document.createElement("img");
     img.className = "mr-3";
@@ -24,7 +25,7 @@ function returnImageHTML(posterPath) {
     img.class = "poster "
     return img;
 }
-
+//retruns content for list item 
 function returnContent(movieObject, isUserOwner) {
     var details = movieObject.details
    
@@ -66,6 +67,7 @@ function returnContent(movieObject, isUserOwner) {
     return masterDiv
 }
 
+//Creates remove from list button
 function returnRemoveFromListButton(movieId) {
     var button = document.createElement('button')
     button.className = "btn btn-primary btn-sm"
@@ -79,7 +81,7 @@ function returnRemoveFromListButton(movieId) {
     return button
 }
 
-
+//ajax handler for removing movie from list, removes from serve and on page gets rid of item 
 function onRemoveButtonClick(movieId) {
     console.log(movieId);
     var url = 'removeMovie/' + movieId;
@@ -91,7 +93,7 @@ function onRemoveButtonClick(movieId) {
     var removedItem = document.getElementById(movieId);
     removedItem.innerHTML = '';
 }
-
+//sets hidden from of list owner id for comment form 
 function setListOwnerIdOnCommentForm(listOwnerID) {
     var hiddenField = document.getElementById('id_listOwnerId');
     if (hiddenField) {
