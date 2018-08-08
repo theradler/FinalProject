@@ -17,22 +17,21 @@
     <title></title>
 </head>
 <body>
+    <div class="container">
+        <h1>Search For Movies by Title or Person</h1>
     <div class="form-group">
     <form id="searchForm">
-        <div class="form-row">
-            <div class="col">
         <select id="inputSearchBy" class="form-control">
             <option selected>Choose...</option>
             <option>Title</option>
             <option>Person</option>
         </select>
-           </div>
-            <div class="col">
-        <input type="text" class="form-control" placeholder="" />
+                <input type="text" class="form-control" placeholder="" />
         <button  type="button" class="btn-btn-primary btn-lg" onclick="submitMovieSearch()">Search</button>
-            </div>
+
     </form>
     </div>
+        </div>
     <div id="searchResults" class="container">
         <ul class="list-unstyled" id="resultsList">
 

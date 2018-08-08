@@ -10,6 +10,7 @@ from django.contrib.auth import login as auth_login, authenticate, logout
 from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 import json
+import random
 from app.forms import BootstrapAuthenticationForm, BootstrapRegistrationForm, BoostrapCommentForm, BoostrapMovieReview
 from django.contrib.auth.decorators import login_required
 from app.models import Movies, UserMovieList, Comments, MovieReviews
@@ -33,10 +34,16 @@ def home(request):
 def community(request):
     users = User.objects.exclude(pk=request.user.id)
     users = mark_safe(serializers.serialize('json',users))
+    randMovie = Movies.objects.all().order_by('?')[:1]
+    randMovie = randMovie[0]
+    randUser = User.objects.all().order_by('?')
+    randUser = randUser[0].username
     return render(request,
                   'app/community.html',
                   {
                       'communityUsers': users,
+                      'randomMovie':randMovie,
+                      'randomUser': randUser,
                   })
 
 @login_required
@@ -183,8 +190,12 @@ def movieProfile(request, movieUniqueId):
     movie = Movies.objects.get(unique_id=movieUniqueId)
     details = json.loads(movie.details)
     reviews = MovieReviews.objects.filter(movie=movie).order_by('pk')
-    averageReview  = MovieReviews.objects.filter(movie=movie).all().aggregate(Avg('movie_rating'))
-    averageReview = int(round(averageReview['movie_rating__avg']))
+    reviewCount = MovieReviews.objects.filter(movie=movie).all()
+    if reviewCount:
+        averageReview  = MovieReviews.objects.filter(movie=movie).all().aggregate(Avg('movie_rating'))
+        averageReview = int(round(averageReview['movie_rating__avg']))
+    else:
+        averageReview = 'N/A (be the first)'
     return render(request,'app/movieProfile.html',
                   {'movie': movie,
                    'overview':details['overview'],
@@ -210,6 +221,5 @@ def submitReview(request,movieUniqueId):
             newReview= MovieReviews(movie=movie,user=user,movie_rating=reviewScore,movie_review_text=reviewText)
             newReview.save() 
         userReview = MovieReviews()
-
     return HttpResponseRedirect(('/movie/' + movieUniqueId))
     

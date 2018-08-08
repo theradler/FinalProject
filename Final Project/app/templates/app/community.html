@@ -17,7 +17,32 @@
     </div>
     <div class="row">
         <div class="col">
-            <h2 style="text-align:center">Check Out the Community</h2>
+            <h1>What do you think of this film?</h1>
+            <div>
+             <img width="200px" style="align-self:center;" alt="No Post Available" src="https://image.tmdb.org/t/p/original/{{ randomMovie.poster_path }}" />
+             </div>
+            <div>
+                <form action="/movie/{{ randomMovie.unique_id }}">
+                    <button  class="btn btn-primary" type="submit" style="margin-top:10px;width:200px;">Leave a review Now</button>
+                </form>
+            </div>
+            
+        </div>
+        <div class="col">
+            <h1>Check out this users profile</h1>
+            <div>
+                <h5> See what {{ randomUser }} has got cooking</h5>
+            </div>
+            <div><form action="/profile/{{ randomUser }}">
+                    <button  class="btn btn-primary" type="submit" style="margin-top:10px;width:200px;">View their profile today</button>
+                </form></div>
+
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <h2 style="text-align:center">Explore the Community</h2>
             <div class="list-group" id="usersList"></div>
         </div>
         
