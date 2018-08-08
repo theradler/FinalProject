@@ -25,12 +25,7 @@ urlpatterns = [
     path('submitReview/<str:movieUniqueId>', app.views.submitReview, name='submitReview'),
     url(r'^$', app.views.home, name='home'), 
     url(r'^login/$',app.views.login, name='login'),
-    url(r'^logout$',
-        django.contrib.auth.views.logout,
-        {
-            'next_page': '/',
-        },
-        name='logout'),
+    url(r'^logout$',app.views.signout,name='logout'),
     url(r'^moviesearch$',app.views.movieSearchPage, name='movieserchpage'),
     url(r'^register$', app.views.register, name='register'), 
     url(r'^userAuth$', app.views.userAuth, name='userauth'),

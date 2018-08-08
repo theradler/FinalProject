@@ -239,3 +239,7 @@ def submitReview(request,movieUniqueId):
         userReview = MovieReviews()
     return HttpResponseRedirect(('/movie/' + movieUniqueId))
     
+def signout(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+    
