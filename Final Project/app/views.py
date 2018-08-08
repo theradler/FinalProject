@@ -108,7 +108,7 @@ def userAuth(request):
                  'app/login.html',
                  {
                  'loginForm': loginForm,
-                 'regForm': userCreationForm,
+                 'regForm': regForm,
                 })
 
 @login_required
@@ -123,9 +123,10 @@ def addMovie(request, moviedb_id):
         newListNumber = UserMovieList.objects.filter(user_id=current_user.id).count()
         if newListNumber >= 10:
             return HttpResponse('You can only have 10 movies in your personal canon')
-        currentMovie = Movies.objects.get(moviedb_id=moviedb_id)
+        currentMovie = Movies.objects.get(moviedb_id=moviedb_id) 
         currentUser = User.objects.filter(pk=current_user.id) 
-        if not UserMovieList.objects.filter(moviedb_id=currentMovie).exists():
+        isMovieOnList = UserMovieList.objects.filter(movie=currentMovie, user=currentUser)._result_cache
+        if not isMovieOnList:
            newMovieListItem = UserMovieList(user=current_user,movie=currentMovie,list_position=newListNumber)
            newMovieListItem.save()
         return HttpResponse('200') 

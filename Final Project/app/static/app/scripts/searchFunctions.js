@@ -127,7 +127,9 @@ function onAddButtonClick(movieID) {
     var ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function () {
         if (ajax.readyState == ajax.DONE && ajax.status == 200) {
-            //do something once server side processing has been completed
+            if (ajax.responseText != 200) {
+                document.getElementById('tooManyMovies').style.display = 'block';
+            }
         }
     };
     ajax.open("POST", url, true);
