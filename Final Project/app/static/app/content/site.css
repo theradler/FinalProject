@@ -1,6 +1,7 @@
 body {
-    padding-top: 50px;
+    padding-top: 100px;
     padding-bottom: 20px;
+    height:500px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -76,4 +77,10 @@ input[type="checkbox"].input-validation-error {
 }
 .checked {
     color: orange;
+}
+footer {
+    width: 100%;
+    bottom: 0px;
+    text-align: center; /* This line is not needed but centers your text */
+    margin-top:20px;
 }
