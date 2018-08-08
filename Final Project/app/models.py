@@ -19,7 +19,7 @@ class Movies(models.Model):
 
 class UserMovieList(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    movie = models.ForeignKey('Movies', on_delete=models.SET_NULL, null=True)
+    movie = models.ForeignKey('Movies', on_delete=models.CASCADE, null=True)
     list_position = models.IntegerField()
 
 class Comments(models.Model):

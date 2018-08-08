@@ -7,12 +7,12 @@ function setStarRanking(starValue) {
 
     for (var i = starPostion; i > 0; i--) {
         var star = document.getElementById(('star' + i));
-        star.setAttribute("class", "fa fa-star checked")
+        star.setAttribute("class", "fa fa-star checked");
     }
 
-    var formField = document.getElementById('id_reviewScore')
-    formField.value = starPostion
-    var submitButton = document.getElementById('commentSubmitButton')
+    var formField = document.getElementById('id_reviewScore');
+    formField.value = starPostion;
+    var submitButton = document.getElementById('commentSubmitButton');
     submitButton.disabled = false;
     submitButton.title = "";
 

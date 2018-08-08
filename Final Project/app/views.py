@@ -120,7 +120,7 @@ def addMovie(request, moviedb_id):
         if not Movies.objects.filter(moviedb_id=moviedb_id).exists():
             newMovie = Movies(moviedb_id=moviedb_id,title=result['title'], poster_path=result['poster_path'], details=result['details'])
             newMovie.save()
-        newListNumber = UserMovieList.objects.filter(user_id=current_user.id).count() + 1 
+        newListNumber = UserMovieList.objects.filter(user_id=current_user.id).count()
         currentMovie = Movies.objects.get(moviedb_id=moviedb_id)
         currentUser = User.objects.filter(pk=current_user.id) 
         if not UserMovieList.objects.filter(moviedb_id=currentMovie).exists():
