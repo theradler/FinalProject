@@ -123,8 +123,9 @@ def addMovie(request, moviedb_id):
         newListNumber = UserMovieList.objects.filter(user_id=current_user.id).count() + 1 
         currentMovie = Movies.objects.get(moviedb_id=moviedb_id)
         currentUser = User.objects.filter(pk=current_user.id) 
-        newMovieListItem = UserMovieList(user=current_user,movie=currentMovie,list_position=newListNumber)
-        newMovieListItem.save()
+        if not UserMovieList.objects.filter(moviedb_id=currentMovie).exists():
+           newMovieListItem = UserMovieList(user=current_user,movie=currentMovie,list_position=newListNumber)
+           newMovieListItem.save()
         return HttpResponse('Hello') 
 
 @login_required

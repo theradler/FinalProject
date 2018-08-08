@@ -103,6 +103,7 @@
     <Content Include="app\static\app\vendor\jquery\jquery.slim.js" />
     <Content Include="app\static\app\vendor\jquery\jquery.slim.min.js" />
     <Content Include="app\static\app\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="app\static\Babasse-Old-School-Old-videos.ico" />
     <Content Include="app\templates\app\base.html" />
     <Content Include="app\templates\app\community.html" />
     <Content Include="app\templates\app\movieProfile.html" />

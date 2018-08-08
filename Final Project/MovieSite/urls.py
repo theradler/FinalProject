@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^$', app.views.home, name='home'), 
     url(r'^login/$',app.views.login, name='login'),
     url(r'^logout$',
-        django.contrib.auth.views.auth_logout,
+        django.contrib.auth.views.logout,
         {
             'next_page': '/',
         },
