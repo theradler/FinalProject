@@ -129,6 +129,8 @@ function onAddButtonClick(movieID) {
         if (ajax.readyState == ajax.DONE && ajax.status == 200) {
             if (ajax.responseText != 200) {
                 document.getElementById('tooManyMovies').style.display = 'block';
+            } else {
+                window.location.href='/profile'
             }
         }
     };
