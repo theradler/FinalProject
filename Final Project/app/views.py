@@ -121,12 +121,14 @@ def addMovie(request, moviedb_id):
             newMovie = Movies(moviedb_id=moviedb_id,title=result['title'], poster_path=result['poster_path'], details=result['details'])
             newMovie.save()
         newListNumber = UserMovieList.objects.filter(user_id=current_user.id).count()
+        if newListNumber >= 10:
+            return HttpResponse('You can only have 10 movies in your personal canon')
         currentMovie = Movies.objects.get(moviedb_id=moviedb_id)
         currentUser = User.objects.filter(pk=current_user.id) 
         if not UserMovieList.objects.filter(moviedb_id=currentMovie).exists():
            newMovieListItem = UserMovieList(user=current_user,movie=currentMovie,list_position=newListNumber)
            newMovieListItem.save()
-        return HttpResponse('Hello') 
+        return HttpResponse('200') 
 
 @login_required
 def removeMovieFromList(request, movieUnique_id):
