@@ -9,6 +9,7 @@ from django.contrib import admin
 import django.contrib.auth.views
 import app.forms
 import app.views
+import django
 
 
 # Uncomment the next lines to enable the admin:
