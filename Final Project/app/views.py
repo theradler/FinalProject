@@ -125,7 +125,7 @@ def addMovie(request, moviedb_id):
             return HttpResponse('You can only have 10 movies in your personal canon')
         currentMovie = Movies.objects.get(moviedb_id=moviedb_id) 
         currentUser = User.objects.filter(pk=current_user.id) 
-        isMovieOnList = UserMovieList.objects.filter(movie=currentMovie, user=currentUser)._result_cache
+        isMovieOnList = UserMovieList.objects.filter(movie=currentMovie)
         if not isMovieOnList:
            newMovieListItem = UserMovieList(user=current_user,movie=currentMovie,list_position=newListNumber)
            newMovieListItem.save()
